@@ -1,23 +1,34 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Kohana user guide and api browser.
+ * Translate Controller
  *
- * @package    Userguide
- * @author     Kohana Team
+ * @package    Translate
+ * @author     Copy112
  */
 class Controller_Translate extends Controller_Template {
 	
 	public $template = 'translate/template';
 	
+	
 	function action_index()
 	{
 		
 		
-		$this->template->content = new View('translate/index');
+		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
+		
+		$this->template->content = View::factory('translate/index')
+			->set('languages', $languages);
 		
 		
 		// Uncomment this line if you want to import a language file.
 		// $this->import('en', FALSE);
+		
+	}
+	
+	function action_view($lang)
+	{
+		
+		$language = Sprig::factory('translate_language')->load();
 		
 	}
 	

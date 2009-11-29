@@ -1,5 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.');
-
+/**
+ * Translate String Model
+ *
+ * @package    Translate
+ * @author     Copy112
+ */
 class Model_Translate_String extends Sprig {
 	
 	protected function _init()
