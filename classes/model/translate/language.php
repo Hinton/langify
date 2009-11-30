@@ -13,6 +13,11 @@ class Model_Translate_Language extends Sprig {
 			'id' => new Sprig_Field_Auto,
 			'file' => new Sprig_Field_Char,
 			'name' => new Sprig_Field_Char,
+			
+			'strings' => new Sprig_Field_HasMany(array(
+				'model' => 'translate_string',
+				'column' => 'language_id',
+			)),
 		);
 	}
 }

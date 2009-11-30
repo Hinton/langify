@@ -13,11 +13,10 @@ class Controller_Translate extends Controller_Template {
 	function action_index()
 	{
 		
+		$this->template->content = View::factory('translate/index')
+			->bind('languages', $languages);
 		
 		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
-		
-		$this->template->content = View::factory('translate/index')
-			->set('languages', $languages);
 		
 		
 		// Uncomment this line if you want to import a language file.
@@ -28,7 +27,44 @@ class Controller_Translate extends Controller_Template {
 	function action_view($lang)
 	{
 		
-		$language = Sprig::factory('translate_language')->load();
+		$this->template->content = View::factory('translate/view')
+			->bind('language', $language)
+			->bind('strings', $string_return)
+			->bind('keys', $keys);
+		
+		// Load the language and strings from the database
+		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
+		$strings = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
+		$keys = Sprig::factory('translate_key')->load(NULL, NULL);
+		
+		
+		$string_return = array();
+		
+		// Assign all language strings to an array with the key_id as key.
+		foreach ($strings as $string)
+		{
+			$string_return[$string->translate_key_id] = $string->string;
+		}
+		
+	}
+	
+	function action_import($password = '')
+	{
+		if (!$password) {
+			$this->login_info();
+			return;
+		}
+		
+		
+	}
+	
+	function action_export($password = '')
+	{
+		if (!$password) {
+			$this->login_info();
+			return;
+		}
+		
 		
 	}
 	
