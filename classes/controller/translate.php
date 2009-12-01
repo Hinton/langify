@@ -9,10 +9,21 @@ class Controller_Translate extends Controller_Template {
 	
 	public $template = 'translate/template';
 	
+	public $title = 'Undefined';
+	
+	function before()
+	{
+		parent::before();
+		
+		$this->template->bind('title', $this->title);
+		
+	}
+	
 	
 	function action_index()
 	{
 		
+		$this->title = 'Index';
 		$this->template->content = View::factory('translate/index')
 			->bind('languages', $languages);
 		
@@ -24,8 +35,14 @@ class Controller_Translate extends Controller_Template {
 		
 	}
 	
-	function action_view($lang)
+	function action_view($lang, $id = FALSE)
 	{
+		
+		// If id is defined, call another function so we have cleaner code.
+		if ($id) {
+			$this->edit($lang, $id);
+			return;
+		}
 		
 		$this->template->content = View::factory('translate/view')
 			->bind('language', $language)
@@ -50,9 +67,8 @@ class Controller_Translate extends Controller_Template {
 	
 	function action_import($password = '')
 	{
-		if (!$password) {
-			$this->login_info();
-			return;
+		if ($password != Kohana::config('translate.password')) {
+			die('Wrong Login info');
 		}
 		
 		
@@ -60,9 +76,8 @@ class Controller_Translate extends Controller_Template {
 	
 	function action_export($password = '')
 	{
-		if (!$password) {
-			$this->login_info();
-			return;
+		if ($password != Kohana::config('translate.password')) {
+			die('Wrong Login info');
 		}
 		
 		

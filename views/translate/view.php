@@ -1,13 +1,23 @@
 <table>
 	<thead>
 		<tr>
-			<td>Key</td>
-			<td>String</td>
+			<th>Key</th>
+			<th>String</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach($keys as $key): ?>
-		<tr>
+		<?php 
+			$i = 0;
+			foreach($keys as $key):
+				
+			if ($i % 2 == 1) {
+				echo '<tr class="zebra">';
+			} else {
+				echo '<tr>';
+			}
+		?>
+		
 			<td><?php echo $key->key; ?></td>
 			<td>
 				<?php 
@@ -22,7 +32,11 @@
 					}
 				?>
 			</td>
+			<td><?php echo html::image('tmedia/img/edit.png'); ?></td>
 		</tr>
-		<?php endforeach ?>
+		<?php
+			$i = $i+1;
+			endforeach;
+		?>
 	</tbody>
 </table>
