@@ -24,7 +24,7 @@
 				<?php 
 					if (isset($strings[$key->id])) {
 						
-						echo $strings[$key->id];
+						echo $strings[$key->id]['string'];
 						
 					} else {
 						
@@ -37,10 +37,12 @@
 					<?php 
 						echo form::open();
 						
-						echo form::hidden('id', $key->id);
+						if (isset($strings[$key->id])) {
+							echo form::hidden('id', $strings[$key->id]['id']);
+						}
 						
 						if (isset($strings[$key->id])) {
-							echo form::input('string', $strings[$key->id]);
+							echo form::input('string', $strings[$key->id]['string']);
 						} else {
 							echo form::input('string');
 						}

@@ -38,11 +38,33 @@ class Controller_Translate extends Controller_Template {
 	function action_view($lang, $id = FALSE)
 	{
 		
-		// If id is defined, call another function so we have cleaner code.
-		if ($id) {
-			$this->edit($lang, $id);
-			return;
-		}
+		// Check if someone submited a form
+		/*if ( isset ( $_POST['id'] ) ) {
+			
+			$post = Sprig::factory('translate_string', array('id' => security::xss_clean($_POST['id']) ))
+				->load();
+			
+			$post->values( array(
+				'string' => security::xss_clean($_POST['string']),
+			));
+			
+			/*$post = Sprig::factory('translate_string', array(
+				//'id' => security::xss_clean($_POST['id']),
+				'string' => security::xss_clean($_POST['string']),
+			));
+			
+			try
+			{
+				$post->update();
+			}
+			catch (Validate_Exception $e)
+			{
+				// print_r( $e->array );
+			}
+			
+		} */
+		
+		print_r($_POST);
 		
 		$this->title = 'View';
 		$this->template->content = View::factory('translate/view')
@@ -61,7 +83,10 @@ class Controller_Translate extends Controller_Template {
 		// Assign all language strings to an array with the key_id as key.
 		foreach ($strings as $string)
 		{
-			$string_return[$string->translate_key_id] = $string->string;
+			$string_return[$string->translate_key_id] = array( 
+				'string' => $string->string,
+				'id' => $string->id,
+			);
 		}
 		
 	}

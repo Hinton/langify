@@ -4,6 +4,10 @@ Kohana-Translate is a module for kohanaphp v3.
 
 It allows you to import kohana i18n files into a db, have your visitors translating it, and then export it back as i18n files.
 
+##Requirements
+* Kohanaphp v3
+* Sprig (http://github.com/shadowhand/sprig)
+
 ##Install
 * Place the module into your module folder
 * Add the module to your bootstrap.php file

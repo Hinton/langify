@@ -22,4 +22,8 @@ class Model_Translate_String extends Sprig {
 			'string' => new Sprig_Field_Text,
 		);
 	}
+	
+	
+	
+	
 }
