@@ -4,6 +4,7 @@
  *
  * @package    Translate
  * @author     Copy112
+ * @license    MIT
  */
 class Controller_Translate extends Controller_Template {
 	

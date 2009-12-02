@@ -4,6 +4,7 @@
  *
  * @package    Translate
  * @author     Copy112
+ * @license    MIT
  */
 class Model_Translate_String extends Sprig {
 	
