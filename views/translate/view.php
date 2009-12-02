@@ -1,8 +1,9 @@
-<table width="700px">
+<table width="800px">
 	<thead>
 		<tr>
-			<th width="170px">Key</th>
-			<th>String</th>
+			<th width="120px">Key</th>
+			<th>English</th>
+			<th width="300px">String</th>
 			<th width="20px"></th>
 		</tr>
 	</thead>
@@ -19,6 +20,7 @@
 		?>
 		
 			<td><?php echo $key->key; ?></td>
+			<td><?php echo $english[$key->id]; ?></td>
 			<td>
 				<div class="info">
 				<?php 

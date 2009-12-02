@@ -15,7 +15,14 @@
 <div id="header">
 	<div class="wrapper">
 		<ul class="breadcrumb">
-			<li><a href="/translate">Translate</a></li>
+			<li><?php echo html::anchor('translate', 'Translate'); ?></li>
+			
+			<?php foreach ( $breadcrumb as $item ): ?>
+			
+			<li><?php echo html::anchor($item['url'], $item['text']); ?></li>
+			
+			<?php endforeach; ?>
+			
 		</ul>
 	</div>
 </div>

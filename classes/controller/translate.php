@@ -10,12 +10,14 @@ class Controller_Translate extends Controller_Template {
 	public $template = 'translate/template';
 	
 	public $title = 'Undefined';
+	public $breadcrumb = array();
 	
 	function before()
 	{
 		parent::before();
 		
 		$this->template->bind('title', $this->title);
+		$this->template->bind('breadcrumb', $this->breadcrumb);
 		
 	}
 	
@@ -29,16 +31,19 @@ class Controller_Translate extends Controller_Template {
 		
 		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
 		
-		
-		// Uncomment this line if you want to import a language file.
-		// $this->import('en', FALSE);
-		
 	}
+	
 	
 	function action_view($lang, $id = FALSE)
 	{
 		
+		$lang = security::xss_clean($lang);
 		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
+		
+		$this->breadcrumb[] = array(
+			'url' => 'translate/view/'.$lang,
+			'text' => $language->name,
+		);
 		
 		// Check if someone submited a form
 		if ( isset ( $_POST['id'] ) ) {
@@ -85,11 +90,20 @@ class Controller_Translate extends Controller_Template {
 		$this->template->content = View::factory('translate/view')
 			->bind('language', $language)
 			->bind('strings', $string_return)
-			->bind('keys', $keys);
+			->bind('keys', $keys)
+			->bind('english', $english);
 		
 		// Load the language and strings from the database
 		$strings  = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
 		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
+		$eng      = Sprig::factory('translate_string', array('language_id' => 1))->load(NULL, NULL);
+		
+		$english = array();
+		
+		foreach ( $eng as $engl ) {
+			$english[$engl->key->id] = $engl->string;
+		}
+		
 		
 		
 		$string_return = array();
@@ -175,8 +189,7 @@ class Controller_Translate extends Controller_Template {
 
 			$strings->create();
 			
-		}
-		
+		}	
 		
 	}
 	
@@ -204,7 +217,7 @@ class Controller_Translate extends Controller_Template {
 		header('Content-disposition: attachment; filename='.$lang.'.php');
 		header('Content-type: text/html');
 		
-		$output = "<?php defined('SYSPATH') or die('No direct script access.');\n";
+		$output  = "<?php defined('SYSPATH') or die('No direct script access.');\n";
 		$output .= "\n";
 		$output .= "return array (\n";
 		
@@ -216,8 +229,7 @@ class Controller_Translate extends Controller_Template {
 		
 		$output .= ");";
 		
-		print $output;
-		
+		echo $output;
 		
 	}
 	
