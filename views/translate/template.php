@@ -32,6 +32,8 @@
 	<h1>Translate <?php echo $title; ?></h1>
 	
 	<?php echo $content; ?>
+	
+	<a href="http://copy112.com/translate" class="powerdby">Powerd by Translate Alpha 1</a>
 
 </div>
 

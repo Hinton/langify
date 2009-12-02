@@ -150,3 +150,10 @@ input.change {
 	
 	margin: 5px 0 0 0;
 }
+
+.powerdby {
+	color: #666;
+	font-size: 11px;
+	float: right;
+	margin: 10px 0 10px 0;
+}
