@@ -5,7 +5,9 @@
 	
 	<?php
 		echo html::style('tmedia/css/main.css');
-		//echo html::script($script);
+		
+		echo html::script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
+		echo html::script('tmedia/js/main.js');
 	?>
 </head>
 <body>

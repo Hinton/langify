@@ -44,6 +44,7 @@ class Controller_Translate extends Controller_Template {
 			return;
 		}
 		
+		$this->title = 'View';
 		$this->template->content = View::factory('translate/view')
 			->bind('language', $language)
 			->bind('strings', $string_return)

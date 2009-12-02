@@ -111,3 +111,42 @@ tr {
 	border-bottom: 1px solid #ddd;
 }
 
+
+
+.edit {
+	
+}
+
+.edit:hover {
+	cursor: pointer;
+}
+
+tr div.form {
+	display: none;
+}
+
+.form input {
+	width: 180px;
+	padding: 5px;
+	border: 2px solid #ccc;
+}
+
+tbody tr {
+	height: 45px;
+}
+
+tbody td {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+input.change {
+	float: right;
+	width: 16px;
+	height: 16px;
+	border: none;
+	background: url("../img/accept.png");
+	text-indent: -9000px;
+	
+	margin: 5px 0 0 0;
+}
