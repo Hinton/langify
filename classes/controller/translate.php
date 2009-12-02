@@ -38,18 +38,15 @@ class Controller_Translate extends Controller_Template {
 	function action_view($lang, $id = FALSE)
 	{
 		
+		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
+		
 		// Check if someone submited a form
-		/*if ( isset ( $_POST['id'] ) ) {
+		if ( isset ( $_POST['id'] ) ) {
 			
 			$post = Sprig::factory('translate_string', array('id' => security::xss_clean($_POST['id']) ))
 				->load();
 			
 			$post->values( array(
-				'string' => security::xss_clean($_POST['string']),
-			));
-			
-			/*$post = Sprig::factory('translate_string', array(
-				//'id' => security::xss_clean($_POST['id']),
 				'string' => security::xss_clean($_POST['string']),
 			));
 			
@@ -62,9 +59,27 @@ class Controller_Translate extends Controller_Template {
 				// print_r( $e->array );
 			}
 			
-		} */
+		} elseif ( isset ( $_POST['string'] ) ) {
+			
+			$post = Sprig::factory('translate_string', array(
+				'language_id'      => $language->id,
+				'key'              => security::xss_clean( $_POST['key_id'] ),
+				'string'           => security::xss_clean( $_POST['string'] ),
+			));
+			
+			try
+			{
+				$post->create();
+			}
+			catch (Validate_Exception $e)
+			{
+				print_r( $e->array->errors('blog/post') );
+			}
+			
+		}
 		
-		print_r($_POST);
+		// Debug
+		// print_r($_POST);
 		
 		$this->title = 'View';
 		$this->template->content = View::factory('translate/view')
@@ -73,9 +88,8 @@ class Controller_Translate extends Controller_Template {
 			->bind('keys', $keys);
 		
 		// Load the language and strings from the database
-		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
-		$strings = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
-		$keys = Sprig::factory('translate_key')->load(NULL, NULL);
+		$strings  = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
+		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
 		
 		
 		$string_return = array();
@@ -83,7 +97,7 @@ class Controller_Translate extends Controller_Template {
 		// Assign all language strings to an array with the key_id as key.
 		foreach ($strings as $string)
 		{
-			$string_return[$string->translate_key_id] = array( 
+			$string_return[$string->key->id] = array( 
 				'string' => $string->string,
 				'id' => $string->id,
 			);
@@ -91,21 +105,30 @@ class Controller_Translate extends Controller_Template {
 		
 	}
 	
-	function action_import($password = '')
+	function action_import($password = '', $lang = null)
 	{
 		if ($password != Kohana::config('translate.password')) {
 			die('Wrong Login info');
 		}
 		
+		if (!$lang) {
+			die('You need to enter a language in the url to, after the password');
+		}
 		
+		$this->import($lang);
 	}
 	
-	function action_export($password = '')
+	function action_export($password = '', $lang = null)
 	{
 		if ($password != Kohana::config('translate.password')) {
 			die('Wrong Login info');
 		}
 		
+		if (!$lang) {
+			die('You need to enter a language in the url to, after the password');
+		}
+		
+		$this->export($lang);
 		
 	}
 	
@@ -161,8 +184,40 @@ class Controller_Translate extends Controller_Template {
 	 * Perse strings for a language into a download able language file
 	 * @return 
 	 */
-	private function export()
+	private function export($lang)
 	{
+		$this->auto_render = false;
+		
+		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
+		$strings  = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
+		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
+		
+		$string_return = array();
+		
+		// Assign all language strings to an array with the key_id as key.
+		foreach ($strings as $string)
+		{
+			$string_return[$string->key->key] = $string->string;
+		}
+		
+		
+		header('Content-disposition: attachment; filename='.$lang.'.php');
+		header('Content-type: text/html');
+		
+		$output = "<?php defined('SYSPATH') or die('No direct script access.');\n";
+		$output .= "\n";
+		$output .= "return array (\n";
+		
+		foreach ( $string_return as $key => $value )
+		{
+			$output .= "\t'".$key."' => '".$value."',\n";
+		}
+		
+		
+		$output .= ");";
+		
+		print $output;
+		
 		
 	}
 	

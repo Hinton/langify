@@ -15,7 +15,7 @@ class Model_Translate_String extends Sprig {
 			'language_id' => new Sprig_Field_BelongsTo(array(
                 'model' => 'translate_language',
             )),
-			'translate_key_id' => new Sprig_Field_Integer,
+			//'translate_key_id' => new Sprig_Field_Integer,
 			'key' => new Sprig_Field_BelongsTo(array(
                 'model' => 'translate_key',
             )),

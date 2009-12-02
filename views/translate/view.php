@@ -1,9 +1,9 @@
-<table>
+<table width="700px">
 	<thead>
 		<tr>
-			<th width="100px">Key</th>
-			<th width="250px">String</th>
-			<th></th>
+			<th width="170px">Key</th>
+			<th>String</th>
+			<th width="20px"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -39,6 +39,8 @@
 						
 						if (isset($strings[$key->id])) {
 							echo form::hidden('id', $strings[$key->id]['id']);
+						} else {
+							echo form::hidden('key_id', $key->id);
 						}
 						
 						if (isset($strings[$key->id])) {
@@ -53,7 +55,7 @@
 					?>
 				</div>
 			</td>
-			<td><?php echo html::image('tmedia/img/edit.png', array('class' => 'edit')); ?></td>
+			<td><?php echo html::image('tmedia/img/edit.png', array('class' => 'edit', 'title' => 'Edit')); ?></td>
 		</tr>
 		<?php
 			$i = $i+1;
