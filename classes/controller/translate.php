@@ -218,7 +218,7 @@ class Controller_Translate extends Controller_Template {
 			
 			$strings = Sprig::factory('translate_string', array(
 				'language_id' => $language_id->id,
-				'key_id'      => $key_id->id,
+				'key'      => $key_id->id,
 				'string'      => $value,
 			));
 

@@ -8,6 +8,8 @@
  */
 class Model_Translate_Language extends Sprig {
 	
+	protected $_sorting = array('name' => 'asc');
+	
 	protected function _init()
 	{
 		$this->_fields += array(
