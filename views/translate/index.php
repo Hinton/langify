@@ -1,4 +1,4 @@
-<p>To get started select the language you would like to translate from below.</p>
+<p>To get started select the language you would like to translate.</p>
 
 <?php foreach($languages as $language): ?>
 	
