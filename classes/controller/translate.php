@@ -84,6 +84,11 @@ class Controller_Translate extends Controller_Template {
 			
 		}
 		
+		// Ajax is used to submit data, so we don't need to display anything, or recive stuff from the db.
+		if (Request::$is_ajax) {
+			die();
+		}
+		
 		// Debug
 		// print_r($_POST);
 		

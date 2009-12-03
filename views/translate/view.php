@@ -34,7 +34,7 @@
 					}*/
 				?>
 				<?php 
-					echo form::open();
+					echo form::open(NULL, array('class' => 'edit_form') );
 					
 					if (isset($strings[$key->id])) {
 						echo form::hidden('id', $strings[$key->id]['id']);

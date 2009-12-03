@@ -126,15 +126,15 @@ tr div.form {
 }
 
 input {
-	width: 275px;
-	padding: 7px 7px;
-	border: 2px solid #eaeaea;
+	width: 260px;
+	padding: 9px;
+	border: none;
 	background: none;
 }
 
 input:hover, input:focus {
 	background: #fff;
-	padding: 7px 7px;
+	padding: 7px;
 	border: 2px solid #ccc;
 }
 
@@ -149,12 +149,12 @@ tbody td {
 
 input.change {
 	float: right;
-	width: 16px;
-	height: 16px;
+	width: 32px;
+	height: 32px;
 	border: none;
 	background: url("../img/accept.png");
 	text-indent: -9000px;
-	margin: 8px 0 0 0;
+	margin: 0 0 0 0;
 }
 
 .powerdby {

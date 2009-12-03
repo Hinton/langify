@@ -3,6 +3,10 @@
 <head>
 	<title>Translate Module - <?php echo $title; ?></title>
 	
+	<script type="text/javascript">
+		path = "<?php echo url::base(); ?>";
+	</script>
+	
 	<?php
 		echo html::style('tmedia/css/main.css');
 		
