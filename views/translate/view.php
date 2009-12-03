@@ -49,7 +49,9 @@
 					}
 						
 					echo form::submit('submit', 'Edit', array('class' => 'change'));
-						
+					
+					echo html::image('tmedia/img/ajax.gif', array('class' => 'ajax'));
+											
 					echo form::close();
 				?>
 			</td>
