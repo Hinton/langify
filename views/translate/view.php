@@ -3,8 +3,7 @@
 		<tr>
 			<th width="120px">Key</th>
 			<th>English</th>
-			<th width="300px">String</th>
-			<th width="20px"></th>
+			<th width="320px">String</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,8 +21,8 @@
 			<td><?php echo $key->key; ?></td>
 			<td><?php echo $english[$key->id]; ?></td>
 			<td>
-				<div class="info">
-				<?php 
+				<?php
+					/*
 					if (isset($strings[$key->id])) {
 						
 						echo $strings[$key->id]['string'];
@@ -32,32 +31,28 @@
 						
 						echo 'Untranslated';
 					
-					}
+					}*/
 				?>
-				</div>
-				<div class="form">
-					<?php 
-						echo form::open();
+				<?php 
+					echo form::open();
+					
+					if (isset($strings[$key->id])) {
+						echo form::hidden('id', $strings[$key->id]['id']);
+					} else {
+						echo form::hidden('key_id', $key->id);
+					}
+					
+					if (isset($strings[$key->id])) {
+						echo form::input('string', $strings[$key->id]['string']);
+					} else {
+						echo form::input('string');
+					}
 						
-						if (isset($strings[$key->id])) {
-							echo form::hidden('id', $strings[$key->id]['id']);
-						} else {
-							echo form::hidden('key_id', $key->id);
-						}
+					echo form::submit('submit', 'Edit', array('class' => 'change'));
 						
-						if (isset($strings[$key->id])) {
-							echo form::input('string', $strings[$key->id]['string']);
-						} else {
-							echo form::input('string');
-						}
-						
-						echo form::submit('submit', 'Edit', array('class' => 'change'));
-						
-						echo form::close();
-					?>
-				</div>
+					echo form::close();
+				?>
 			</td>
-			<td><?php echo html::image('tmedia/img/edit.png', array('class' => 'edit', 'title' => 'Edit')); ?></td>
 		</tr>
 		<?php
 			$i = $i+1;

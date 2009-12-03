@@ -125,9 +125,16 @@ tr div.form {
 	display: none;
 }
 
-.form input {
-	width: 260px;
-	padding: 5px;
+input {
+	width: 275px;
+	padding: 7px 7px;
+	border: 2px solid #eaeaea;
+	background: none;
+}
+
+input:hover, input:focus {
+	background: #fff;
+	padding: 7px 7px;
 	border: 2px solid #ccc;
 }
 
@@ -147,8 +154,7 @@ input.change {
 	border: none;
 	background: url("../img/accept.png");
 	text-indent: -9000px;
-	
-	margin: 5px 0 0 0;
+	margin: 8px 0 0 0;
 }
 
 .powerdby {
