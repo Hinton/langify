@@ -91,7 +91,7 @@ class Controller_Translate extends Controller_Template {
 			}
 			catch (Validate_Exception $e)
 			{
-				// print_r( $e->array );
+				print_r( $e->array );
 			}
 			
 		} elseif ( isset ( $_POST['string'] ) ) {
