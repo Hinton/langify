@@ -30,7 +30,7 @@ $(document).ready(function() {
 					type: 'POST',
 					data: 'id='+id+'&string='+string,
 					success: function(result){
-						alert(result);
+						// alert(result);
 						$(this2).find('.ajax').fadeOut(200, function() {
 							$(this2).find('.change').fadeIn(200);
 						});
@@ -44,7 +44,7 @@ $(document).ready(function() {
 					type: 'POST',
 					data: 'key_id='+key_id+'&string='+string,
 					success: function(result){
-						alert(result);
+						// alert(result);
 						$(this2).find('.ajax').fadeOut(200, function() {
 							$(this2).find('.change').fadeIn(200);
 						});
