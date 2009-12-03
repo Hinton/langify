@@ -10,23 +10,52 @@ class Controller_Translate extends Controller_Template {
 	
 	public $template = 'translate/template';
 	
-	public $title = 'Undefined';
+	public $title = '';
 	public $breadcrumb = array();
+	
+	// yes i'm lazy.
+	private $version = '0.1';
 	
 	function before()
 	{
 		parent::before();
 		
+		// Load the accepted language list
+		$translations = Kohana::message('langify', 'translations');
+		
 		$this->template->bind('title', $this->title);
 		$this->template->bind('breadcrumb', $this->breadcrumb);
+		$this->template->set('version', $this->version);
+		$this->template->set('translations', $translations);
 		
+		i18n::$lang = 'en-gb';
+		
+		/*
+		 * Borrowed from userguide
+		 */
+		if (isset($_GET['lang']))
+		{
+			$lang = $_GET['lang'];
+
+			if (in_array($lang, array_keys($translations) ))
+			{
+				// Set the language cookie
+				Cookie::set('langify_language', $lang, Date::YEAR);
+			}
+
+			// Reload the page
+			$this->request->redirect($this->request->uri);
+		}
+
+		// Set the translation language
+		I18n::$lang = Cookie::get('langify_language', Kohana::config('translate')->lang);
+			
 	}
 	
 	
 	function action_index()
 	{
 		
-		$this->title = 'Index';
 		$this->template->content = View::factory('translate/index')
 			->bind('languages', $languages);
 		
@@ -92,7 +121,7 @@ class Controller_Translate extends Controller_Template {
 		// Debug
 		// print_r($_POST);
 		
-		$this->title = 'View';
+		$this->title = 'view';
 		$this->template->content = View::factory('translate/view')
 			->bind('language', $language)
 			->bind('strings', $string_return)

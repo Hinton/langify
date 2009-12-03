@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Translate Module - <?php echo $title; ?></title>
+	<title><?php echo i18n::get('langify'); ?> - <?php echo $title; ?></title>
 	
 	<script type="text/javascript">
 		path = "<?php echo url::base(); ?>";
@@ -19,25 +19,29 @@
 <div id="header">
 	<div class="wrapper">
 		<ul class="breadcrumb">
-			<li><?php echo html::anchor('translate', 'Translate'); ?></li>
+			<li><?php echo html::anchor('translate', i18n::get('langify')); ?></li>
 			
 			<?php foreach ( $breadcrumb as $item ): ?>
-			
-			<li><?php echo html::anchor($item['url'], $item['text']); ?></li>
-			
+				<li><?php echo html::anchor($item['url'], $item['text']); ?></li>
 			<?php endforeach; ?>
-			
 		</ul>
+		<div class="language_select">
+			<?php 
+				echo form::open(NULL, array('method' => 'get'));
+					echo form::select('lang', $translations, I18n::$lang);
+				echo form::close();
+			?>
+		</div>
 	</div>
 </div>
 
 <div class="wrapper">
 	
-	<h1>Translate <?php echo $title; ?></h1>
+	<h1><?php echo i18n::get('langify'); ?> <?php echo i18n::get($title); ?></h1>
 	
 	<?php echo $content; ?>
 	
-	<a href="http://copy112.com/kohana" class="powerdby">Powerd by Translate Alpha 1</a>
+	<a href="http://copy112.com/kohana" class="powerdby"><?php echo i18n::get('powered by langify').' '.$version; ?></a>
 
 </div>
 

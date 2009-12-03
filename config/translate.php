@@ -8,4 +8,7 @@ return array(
 	 */
 	'password' => 'ChangeMe28',
 	
+	// Default language
+	'lang'		=> 'en-us',
+	
 );

@@ -1,5 +1,11 @@
 $(document).ready(function() {
 	
+	// Language select system
+	$('.language_select form select').change(function()
+	{
+		$(this).parents('form').submit();
+	});
+	
 	$(".edit_form").submit(function(event) {
 		
 		var id     = $(this).find("input[name='id']").attr('value');

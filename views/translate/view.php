@@ -1,9 +1,9 @@
 <table width="800px">
 	<thead>
 		<tr>
-			<th width="120px">Key</th>
+			<th width="120px"><?php echo i18n::get('key'); ?></th>
 			<th>English</th>
-			<th width="320px">String</th>
+			<th width="320px"><?php echo i18n::get('string'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

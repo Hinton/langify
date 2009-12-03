@@ -82,16 +82,26 @@ sub { vertical-align:sub; }
 #header {
 	width: 100%;
 	background: #111;
-	height: 45px;
+	height: 42px;
 	color: #ccc;
 	border-bottom: solid 1px #eee;
 	margin-bottom: 10px;
 }
 
-#header ul.breadcrumb { display: block; margin: 0; padding: 9px 0 0 0; overflow: auto; }
+#header ul.breadcrumb { display: block; margin: 0; padding: 9px 0 0 0; overflow: auto; float: left; }
 #header ul.breadcrumb li { display: block; float: left; margin: 0; padding: 0; padding-left: 0.6em; }
 #header ul.breadcrumb li:before { content: '» '; color: #888; }
 #header ul.breadcrumb li a { color: #ccc; text-decoration: underline; }
+
+#header .language_select {
+	float: right;
+	margin: 10px 0 0 0;
+}
+
+#header .language_select select {
+	width: 200px;
+	border: 1px solid #ccc;
+}
 
 thead {
 	border-bottom: 2px solid #ccc;
