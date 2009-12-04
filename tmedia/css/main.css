@@ -122,15 +122,6 @@ tr {
 }
 
 
-
-.edit {
-	
-}
-
-.edit:hover {
-	cursor: pointer;
-}
-
 tr div.form {
 	display: none;
 }
@@ -146,6 +137,10 @@ input:hover, input:focus {
 	background: #fff;
 	padding: 7px;
 	border: 2px solid #ccc;
+}
+
+input:hover {
+	border: 2px solid #ddd;
 }
 
 tbody tr {
@@ -165,6 +160,7 @@ input.change {
 	background: url("../img/accept.png");
 	text-indent: -9000px;
 	margin: 0 0 0 0;
+	display: none;
 }
 
 .powerdby {

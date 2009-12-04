@@ -11,6 +11,8 @@ $(document).ready(function() {
 			$(this).parent().submit();
 			$(this).parent().parent().parent().next().find("input[name='string']").focus();
 			return false;
+		} else {
+			$(this).parent().find('.change').fadeIn(200);
 		}
 	});
 	
@@ -32,7 +34,7 @@ $(document).ready(function() {
 					success: function(result){
 						// alert(result);
 						$(this2).find('.ajax').fadeOut(200, function() {
-							$(this2).find('.change').fadeIn(200);
+							//$(this2).find('.change').fadeIn(200);
 						});
 						
 					}
@@ -46,7 +48,7 @@ $(document).ready(function() {
 					success: function(result){
 						// alert(result);
 						$(this2).find('.ajax').fadeOut(200, function() {
-							$(this2).find('.change').fadeIn(200);
+							//$(this2).find('.change').fadeIn(200);
 						});
 						
 					}

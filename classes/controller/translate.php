@@ -2,13 +2,13 @@
 /**
  * Translate Controller
  *
- * @package    Translate
+ * @package    Langify
  * @author     Copy112
  * @license    MIT
  */
 class Controller_Translate extends Controller_Template {
 	
-	public $template = 'translate/template';
+	public $template = 'langify/template';
 	
 	public $title = '';
 	public $breadcrumb = array();
@@ -28,8 +28,6 @@ class Controller_Translate extends Controller_Template {
 		$this->template->set('version', $this->version);
 		$this->template->set('translations', $translations);
 		
-		i18n::$lang = 'en-gb';
-		
 		/*
 		 * Borrowed from userguide
 		 */
@@ -48,7 +46,7 @@ class Controller_Translate extends Controller_Template {
 		}
 
 		// Set the translation language
-		I18n::$lang = Cookie::get('langify_language', Kohana::config('translate')->lang);
+		I18n::$lang = Cookie::get('langify_language', Kohana::config('langify')->lang);
 			
 	}
 	
@@ -56,7 +54,7 @@ class Controller_Translate extends Controller_Template {
 	function action_index()
 	{
 		
-		$this->template->content = View::factory('translate/index')
+		$this->template->content = View::factory('langify/index')
 			->bind('languages', $languages);
 		
 		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
@@ -64,8 +62,12 @@ class Controller_Translate extends Controller_Template {
 	}
 	
 	
-	function action_view($lang, $id = FALSE)
+	function action_view($lang = FALSE)
 	{
+		
+		if (!$lang) {
+			Request::instance()->redirect('translate');
+		}
 		
 		$lang = security::xss_clean($lang);
 		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
@@ -122,7 +124,7 @@ class Controller_Translate extends Controller_Template {
 		// print_r($_POST);
 		
 		$this->title = 'view';
-		$this->template->content = View::factory('translate/view')
+		$this->template->content = View::factory('langify/view')
 			->bind('language', $language)
 			->bind('strings', $string_return)
 			->bind('keys', $keys)
@@ -133,17 +135,14 @@ class Controller_Translate extends Controller_Template {
 		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
 		$eng      = Sprig::factory('translate_string', array('language_id' => 1))->load(NULL, NULL);
 		
+		// Insert the english strings into an array.
 		$english = array();
-		
 		foreach ( $eng as $engl ) {
 			$english[$engl->key->id] = $engl->string;
 		}
 		
-		
-		
+		// Insert the requested language into an array.
 		$string_return = array();
-		
-		// Assign all language strings to an array with the key_id as key.
 		foreach ($strings as $string)
 		{
 			$string_return[$string->key->id] = array( 

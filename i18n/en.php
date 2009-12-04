@@ -9,4 +9,6 @@ return array(
 	'view' => 'View',
 	'key' => 'Key',
 	'string' => 'String',
+	
+	'langify admin' => 'Langify Admin',
 );

@@ -21,18 +21,6 @@
 			<td><?php echo $key->key; ?></td>
 			<td><?php echo $english[$key->id]; ?></td>
 			<td>
-				<?php
-					/*
-					if (isset($strings[$key->id])) {
-						
-						echo $strings[$key->id]['string'];
-						
-					} else {
-						
-						echo 'Untranslated';
-					
-					}*/
-				?>
 				<?php 
 					echo form::open(NULL, array('class' => 'edit_form') );
 					
@@ -48,7 +36,7 @@
 						echo form::input('string');
 					}
 						
-					echo form::submit('submit', 'Edit', array('class' => 'change'));
+					echo form::submit('submit', 'Edit', array('class' => 'change', 'tabindex' => '-1'));
 					
 					echo html::image('tmedia/img/ajax.gif', array('class' => 'ajax'));
 											

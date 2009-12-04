@@ -9,7 +9,8 @@
 
 Route::set('translate/admin', 'translate/admin(/<action>(/<language>(/<id>)))')
 	->defaults(array(
-		'controller' => 'translate',
+		'directory'  => 'langify',
+		'controller' => 'admin',
 		'action'     => 'index',
 	));
 
