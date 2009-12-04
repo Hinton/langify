@@ -8,7 +8,7 @@
 	</script>
 	
 	<?php
-		echo html::style('tmedia/css/main.css');
+		echo html::style('tmedia/css/admin.css');
 		
 		echo html::script('http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js');
 		echo html::script('tmedia/js/main.js');
