@@ -14,6 +14,8 @@ class Controller_Langify_Admin extends Controller_Template {
 	// yes i'm lazy.
 	private $version = '0.2';
 	
+	private $message = NULL;
+	
 	function before()
 	{
 		
@@ -48,6 +50,14 @@ class Controller_Langify_Admin extends Controller_Template {
 		
 	}
 	
+	function after()
+	{
+		
+		$this->template->set('message', $this->message);
+		
+		parent::after();
+	}
+	
 	function check_access()
 	{
 		if (Auth::instance()->logged_in('translate')){
@@ -64,10 +74,7 @@ class Controller_Langify_Admin extends Controller_Template {
 		
 		$this->check_access();
 		
-		$this->template->content = View::factory('langify/index')
-			->bind('languages', $languages);
-		
-		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
+		$this->template->content = View::factory('langify/admin/index');
 		
 	}
 	
@@ -101,14 +108,18 @@ class Controller_Langify_Admin extends Controller_Template {
 	}
 	
 	
-	function action_import($lang = null)
+	function action_import()
 	{
 		
-		if (!$lang) {
-			die('You need to enter a language in the url to, after the password');
-		}
+		$this->check_access();
 		
-		$this->import($lang);
+		$this->template->content = View::factory('langify/admin/import');
+		
+		if ($_POST) {
+			$this->import( security::xss_clean($_POST['file']) );
+			
+			$this->message = 'Succesfully imported the file!';
+		}
 	}
 	
 	function action_export($lang = null)

@@ -125,7 +125,7 @@ tr {
 tr div.form {
 	display: none;
 }
-
+/*
 input {
 	width: 260px;
 	padding: 9px;
@@ -141,7 +141,7 @@ input:hover, input:focus {
 
 input:hover {
 	border: 2px solid #ddd;
-}
+}*/
 
 tbody tr {
 	height: 45px;
@@ -186,4 +186,43 @@ input.change {
 	border: 2px solid #eee;
 	padding: 5px;
 	margin-left: 10px;
+}
+
+
+.nav {
+	float: left;
+	width: 130px;
+	margin: 10px 0 0 0;
+}
+
+.nav ul {
+	list-style: none;
+}
+
+.content {
+	margin: 10px 0 0 0;
+	float: left;
+	width: 650px;
+}
+
+label {
+	margin-right: 10px;
+}
+
+input {
+	border: 2px solid #ccc;
+	padding: 5px;
+}
+
+.submit {
+	margin-left: 10px;
+}
+
+.message {
+	display: block;
+	width: 630px;
+	height: 20px;
+	padding: 10px 20px;
+	background: #ccc;
+	margin-bottom: 10px;
 }

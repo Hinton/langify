@@ -36,7 +36,24 @@
 	
 	<h1><?php echo i18n::get('langify admin'); ?></h1>
 	
-	<?php echo $content; ?>
+	<div class="nav">
+		<ul>
+			<li><?php echo html::anchor('translate/admin', 'Home'); ?></li>
+			<li><?php echo html::anchor('translate/admin/language', 'Languages'); ?></li>
+			<li><?php echo html::anchor('translate/admin/key', 'Keys'); ?></li>
+			<li><?php echo html::anchor('translate/admin/import', 'Import'); ?></li>
+			<li><?php echo html::anchor('translate/admin/export', 'Export'); ?></li>
+		</ul>
+	</div>
+	
+	<div class="content">
+		<?php if ( isset($message) ): ?>
+			<p class="message">
+				<?php echo $message; ?>
+			</p>
+		<?php endif ?>
+		<?php echo $content; ?>
+	</div>
 	
 	<a href="http://copy112.com/kohana" class="powerdby"><?php echo i18n::get('powered by langify').' '.$version; ?></a>
 
