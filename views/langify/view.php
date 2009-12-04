@@ -36,7 +36,7 @@
 						echo form::input('string');
 					}
 						
-					echo form::submit('submit', 'Edit', array('class' => 'change', 'tabindex' => '-1'));
+					echo form::submit('submit', 'Edit', array('class' => 'change'));
 					
 					echo html::image('tmedia/img/ajax.gif', array('class' => 'ajax'));
 											

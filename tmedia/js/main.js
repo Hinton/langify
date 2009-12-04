@@ -11,7 +11,7 @@ $(document).ready(function() {
 			$(this).parent().submit();
 			$(this).parent().parent().parent().next().find("input[name='string']").focus();
 			return false;
-		} else {
+		} else if (e.keyCode != 9) {
 			$(this).parent().find('.change').fadeIn(200);
 		}
 	});
