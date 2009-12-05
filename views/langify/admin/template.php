@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo i18n::get('langify'); ?></title>
+	<title><?php echo i18n::get('langify admin'); ?></title>
 	
 	<script type="text/javascript">
 		path = "<?php echo url::base(); ?>";

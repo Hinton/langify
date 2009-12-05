@@ -116,7 +116,18 @@ class Controller_Langify_Admin extends Controller_Template {
 		$this->template->content = View::factory('langify/admin/import');
 		
 		if ($_POST) {
-			$this->import( security::xss_clean($_POST['file']) );
+			
+			$file = security::xss_clean($_POST['file']);
+			$keys = FALSE;
+			$strings = FALSE;
+			if ($_POST['keys']) { 
+				$keys = TRUE;
+			}
+			if ($_POST['strings']) { 
+				$strings = TRUE;
+			}
+			
+			$this->import( $file, $keys, $strings );
 			
 			$this->message = 'Succesfully imported the file!';
 		}
@@ -134,7 +145,7 @@ class Controller_Langify_Admin extends Controller_Template {
 	}
 
 	
-	private function import($file = 'en', $import_keys = TRUE)
+	private function import($file = 'en', $import_keys = TRUE, $import_strings = TRUE)
 	{
 		
 		// Retrive the id of the wanted language
@@ -160,21 +171,23 @@ class Controller_Langify_Admin extends Controller_Template {
 		}
 		
 		// Import the lang strings into string table
-		foreach ($lang as $key => $value)
-		{
+		if ($import_strings) {
 			
-			$key_id = Sprig::factory('translate_key', array( 'key' => $key ))->load();
-			
-			$strings = Sprig::factory('translate_string', array(
-				'language_id' => $language_id->id,
-				'key'      => $key_id->id,
-				'string'      => $value,
-			));
-
-			$strings->create();
-			
+			foreach ($lang as $key => $value)
+			{
+				
+				$key_id = Sprig::factory('translate_key', array( 'key' => $key ))->load();
+				
+				$strings = Sprig::factory('translate_string', array(
+					'language_id' => $language_id->id,
+					'key'      => $key_id->id,
+					'string'      => $value,
+				));
+	
+				$strings->create();
+				
+			}
 		}
-		
 	}
 	
 	private function export($lang)
