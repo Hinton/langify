@@ -133,14 +133,25 @@ class Controller_Langify_Admin extends Controller_Template {
 		}
 	}
 	
-	function action_export($lang = null)
+	function action_export()
 	{
 		
-		if (!$lang) {
-			die('You need to enter a language in the url to, after the password');
+		$this->check_access();
+		
+		$this->template->content = View::factory('langify/admin/export')
+			->bind('languages', $languages);
+			
+		$lang = Sprig::factory('translate_language')->load(NULL, NULL);
+		
+		$languages = array();
+		foreach ($lang as $language) {
+			$languages[$language->file] = $language->name;
 		}
 		
-		$this->export($lang);
+		if ($_POST) {
+			$file = security::xss_clean( $_POST['file'] );
+			$this->export($file);
+		}
 		
 	}
 
