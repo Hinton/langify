@@ -19,7 +19,11 @@
 		?>
 		
 			<td><?php echo $key->key; ?></td>
-			<td><?php echo $english[$key->id]; ?></td>
+			<?php if (isset($english[$key->id])): ?>
+				<td><?php echo $english[$key->id]; ?></td>
+			<?php else: ?>
+				<td></td>
+			<?php endif ?>
 			<td>
 				<?php 
 					echo form::open(NULL, array('class' => 'edit_form') );

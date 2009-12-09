@@ -6,6 +6,7 @@ It allows you to import kohana i18n files into a db, have your visitors translat
 
 ##Requirements
 * Kohanaphp v3
+* AUTH (Included width kohana 3) (Can easily be excluded and changed to a custom auth system if needed)
 * Sprig (http://github.com/shadowhand/sprig)
 
 ##Install
@@ -16,6 +17,7 @@ It allows you to import kohana i18n files into a db, have your visitors translat
 
 ##Get Started
 
-* Import a i18n file using the import function, you need to enter the password defined in config file.
+* Make sure you got AUTH Module enabled, and a user width the role translate.
+* Import a i18n file using the admin panel (translate/admin)
 * Edit the language.
 * Export your finnished translated strings into useable i18n files.
