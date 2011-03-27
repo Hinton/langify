@@ -1,157 +1,155 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Translate Controller
+ * Langify translate controller.
+ * Provides a interface for users to modify imported language files.
  *
  * @package    Langify
- * @author     Copy112
+ * @category   Controllers
+ * @author     Oscar Hinton
+ * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-class Controller_Translate extends Controller_Template {
-	
+class Controller_Translate extends Controller {
+
 	public $template = 'langify/template';
-	
+	public $auto_render = TRUE;
+
 	public $title = '';
 	public $breadcrumb = array();
-	
+
 	// yes i'm lazy.
-	private $version = '0.2';
-	
+	private $version = '0.5';
+
 	function before()
 	{
 		parent::before();
-		
-		// Load the accepted language list
-		$translations = Kohana::message('langify', 'translations');
-		
-		$this->template->bind('title', $this->title);
-		$this->template->bind('breadcrumb', $this->breadcrumb);
-		$this->template->set('version', $this->version);
-		$this->template->set('translations', $translations);
-		
-		/*
-		 * Borrowed from userguide
-		 */
+
+		// Borrowed from userguide
 		if (isset($_GET['lang']))
 		{
 			$lang = $_GET['lang'];
 
-			if (in_array($lang, array_keys($translations) ))
+			// Make sure the translations is valid
+			$translations = Kohana::message('langify', 'translations');
+			if (in_array($lang, array_keys($translations)))
 			{
 				// Set the language cookie
 				Cookie::set('langify_language', $lang, Date::YEAR);
 			}
 
 			// Reload the page
-			$this->request->redirect($this->request->uri);
+			$this->request->redirect($this->request->uri());
 		}
 
 		// Set the translation language
 		I18n::$lang = Cookie::get('langify_language', Kohana::config('langify')->lang);
-			
-	}
-	
-	
-	function action_index()
-	{
-		
-		$this->template->content = View::factory('langify/index')
-			->bind('languages', $languages);
-		
-		$languages = Sprig::factory('translate_language')->load(NULL, NULL);
-		
-	}
-	
-	
-	function action_view($lang = FALSE)
-	{
-		
-		if (!$lang) {
-			Request::instance()->redirect('translate');
-		}
-		
-		$lang = security::xss_clean($lang);
-		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
-		
-		$this->breadcrumb[] = array(
-			'url' => 'translate/view/'.$lang,
-			'text' => $language->name,
-		);
-		
-		// Check if someone submited a form
-		if ( isset ( $_POST['id'] ) ) {
-			
-			$post = Sprig::factory('translate_string', array('id' => security::xss_clean($_POST['id']) ))
-				->load();
-			
-			$post->values( array(
-				'string' => security::xss_clean($_POST['string']),
-			));
-			
-			try
-			{
-				$post->update();
-			}
-			catch (Validate_Exception $e)
-			{
-				print_r( $e->array );
-			}
-			
-		} elseif ( isset ( $_POST['string'] ) ) {
-			
-			$post = Sprig::factory('translate_string', array(
-				'language_id'      => $language->id,
-				'key'              => security::xss_clean( $_POST['key_id'] ),
-				'string'           => security::xss_clean( $_POST['string'] ),
-			));
-			
-			try
-			{
-				$post->create();
-			}
-			catch (Validate_Exception $e)
-			{
-				print_r( $e->array->errors('blog/post') );
-			}
-			
-		}
-		
-		// Ajax is used to submit data, so we don't need to display anything, or recive stuff from the db.
-		if (Request::$is_ajax) {
-			die();
-		}
-		
-		// Debug
-		// print_r($_POST);
-		
-		$this->title = 'view';
-		$this->template->content = View::factory('langify/view')
-			->bind('language', $language)
-			->bind('strings', $string_return)
-			->bind('keys', $keys)
-			->bind('english', $english);
-		
-		// Load the language and strings from the database
-		$strings  = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
-		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
-		$eng      = Sprig::factory('translate_string', array('language_id' => 1))->load(NULL, NULL);
-		
-		// Insert the english strings into an array.
-		$english = array();
-		foreach ( $eng as $engl ) {
-			$english[$engl->key->id] = $engl->string;
-		}
-		
-		// Insert the requested language into an array.
-		$string_return = array();
-		foreach ($strings as $string)
+
+		// Borrowed from Vendo
+		// Automaticly load a view class based on action.
+		$view_name = 'View_Langify_'.Request::current()->action();
+		if(Kohana::find_file('classes', strtolower(str_replace('_', '/', $view_name))))
 		{
-			$string_return[$string->key->id] = array( 
-				'string' => $string->string,
-				'id' => $string->id,
-			);
+			$this->view = new $view_name;
+			$this->view->set('version', $this->version);
 		}
-		
 	}
 
+	public function after()
+	{
+		parent::after();
+
+		if ($this->auto_render === TRUE)
+		{
+			$this->response->body($this->view->render());
+		}
+	}
+
+	function action_index()
+	{
+
+	}
+
+	function action_view($lang)
+	{
+		$language = ORM::factory('langify_language')
+			->where('file', '=', $lang)
+			->find();
+
+		// Make sure the language is valid!
+		if ( ! $language->loaded())
+			$this->request->redirect('langify');
+
+		// Send the language id to view.
+		$this->view->set('language', $language->id);
+
+		if ($_POST)
+		{
+			$this->auto_render = FALSE;
+
+			$update = Validation::factory($_POST)
+				->rule('id', 'not_empty')
+				->rule('id', 'digit');
+
+			// Update string
+			if ($update->check())
+			{
+				$string = ORM::factory('langify_string')
+					->where('id', '=', $update['id'])
+					->find();
+
+				if ($string->loaded())
+				{
+					$string->string = $update['string'];
 	
+					try
+					{
+						$string->save();
+						$this->response->body('1');
+					}
+					catch (Validate_Exception $e)
+					{
+						print_r($e->array);
+					}
+				}
+				return;
+			}
+
+			$new = Validation::factory($_POST)
+				->rule('key_id', 'not_empty')
+				->rule('key_id', 'digit');
+
+			// Insert new string
+			if ($new->check())
+			{
+				$key = ORM::factory('langify_key')
+					->where('id', '=', $_POST['key_id'])
+					->find();
+				
+				if ($key->loaded())
+				{
+					// Check if string already exist.
+					$string = ORM::factory('langify_string')
+						->where('key_id', '=', $new['key_id'])
+						->and_where('language_id', '=', $language->id)
+						->find();
+
+					// Make sure the string dosnt exist already.
+					if ( ! $string->loaded())
+					{
+						$values = array(
+							'key_id' => $new['key_id'],
+							'language_id' => $language->id,
+							'string' => $new['string'],
+						);
+
+						$string = ORM::factory('langify_string')
+							->values($values)
+							->save();
+
+						$this->response->body('1');
+					}
+				}
+			}
+		}
+	}
 }

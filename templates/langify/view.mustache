@@ -1,0 +1,25 @@
+<table class="strings">
+	<thead>
+		<tr>
+			<th>English</th>
+			<th>String</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#strings}}
+		<tr>
+			<td>{{key}}</td>
+			<td>
+				<form action="" method="post" class="edit_form">
+					<input type="hidden" name="id" value="{{id}}" />
+					<input type="hidden" name="key_id" value="{{key_id}}" />
+					<textarea name="string">{{string}}</textarea>
+					
+					<input type="submit" value="Edit" class="change" />
+					<img src="tmedia/img/ajax.gif" class="ajax" />
+				</form>
+			</td>
+		</tr>
+		{{/strings}}
+	</tbody>
+</table>

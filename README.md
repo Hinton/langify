@@ -5,9 +5,10 @@ Langify is a module for kohanaphp v3.
 It allows you to import kohana i18n files into a db, have your visitors translating it, and then export it back as i18n files.
 
 ##Requirements
-* Kohanaphp v3
-* AUTH (Included width kohana 3) (Can easily be excluded and changed to a custom auth system if needed)
-* Sprig (http://github.com/shadowhand/sprig)
+* Kohana 3.1.x
+* AUTH (Can easily be excluded and changed to a custom auth system if needed)
+* ORM
+* KOstache http://github.com/zombor/KOstache
 
 ##Install
 * Place the module into your module folder

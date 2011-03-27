@@ -3,7 +3,9 @@
  * Admin Controller
  *
  * @package    Langify
- * @author     Copy112
+ * @category   Controllers
+ * @author     Oscar Hinton
+ * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
 class Controller_Langify_Admin extends Controller_Template {
