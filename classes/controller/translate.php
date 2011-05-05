@@ -9,65 +9,19 @@
  * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-class Controller_Translate extends Controller {
+class Controller_Translate extends Controller_Langify_Base {
 
-	public $template = 'langify/template';
-	public $auto_render = TRUE;
-
-	public $title = '';
 	public $breadcrumb = array();
-
-	// yes i'm lazy.
-	private $version = '0.5';
 
 	function before()
 	{
 		parent::before();
 
-		// Borrowed from userguide
-		if (isset($_GET['lang']))
-		{
-			$lang = $_GET['lang'];
-
-			// Make sure the translations is valid
-			$translations = Kohana::message('langify', 'translations');
-			if (in_array($lang, array_keys($translations)))
-			{
-				// Set the language cookie
-				Cookie::set('langify_language', $lang, Date::YEAR);
-			}
-
-			// Reload the page
-			$this->request->redirect($this->request->uri());
-		}
-
-		// Set the translation language
-		I18n::$lang = Cookie::get('langify_language', Kohana::config('langify')->lang);
-
-		// Borrowed from Vendo
-		// Automaticly load a view class based on action.
-		$view_name = 'View_Langify_'.Request::current()->action();
-		if(Kohana::find_file('classes', strtolower(str_replace('_', '/', $view_name))))
-		{
-			$this->view = new $view_name;
-			$this->view->set('version', $this->version);
-		}
+		Assets::add('css', 'css/langify.css');
+		Assets::add('js', 'js/langify.js');
 	}
 
-	public function after()
-	{
-		parent::after();
-
-		if ($this->auto_render === TRUE)
-		{
-			$this->response->body($this->view->render());
-		}
-	}
-
-	function action_index()
-	{
-
-	}
+	function action_index()  {}
 
 	function action_view($lang)
 	{
@@ -152,4 +106,5 @@ class Controller_Translate extends Controller {
 			}
 		}
 	}
-}
+
+} // End Controller_Translate

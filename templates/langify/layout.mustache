@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<title>{{title}} - Langify</title>
 	<base href="{{base}}" />
-	<link type="text/css" href="tmedia/css/main.css" rel="stylesheet" />
+	<link type="text/css" href="{{css}}" rel="stylesheet" />
 </head>
 <body>
 <header>
@@ -22,12 +22,24 @@
 </header>
 <div class="wrapper">
 	<h1>Langify - {{title}}</h1>
+	
+	{{#sidebar}}
+		<div class="left">
+	{{/sidebar}}
+	
 	{{>content}}
+	
+	{{#sidebar}}
+		</div>
+		<div class="right">
+			{{>sidebar}}
+		</div>
+	{{/sidebar}}
 	
 	<a href="http://oscarhinton.com" class="powerdby">Powered by Langify {{version}}</a>
 </div>
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="tmedia/js/main.js"></script>
+<script type="text/javascript" src="{{js}}"></script>
 </body>
 </html>

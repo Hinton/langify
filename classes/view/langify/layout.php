@@ -13,6 +13,7 @@ abstract class View_Langify_Layout extends Kostache_Layout {
 	protected $_layout = 'langify/layout';
 
 	public $title = 'Undefined';
+	public $sidebar = false; // Display sidebar?
 
 	/**
 	 * Grab all the translations avaible
@@ -38,6 +39,26 @@ abstract class View_Langify_Layout extends Kostache_Layout {
 	public function base()
 	{
 		return URL::base(FALSE, TRUE);
+	}
+	
+	/**
+	 * Generate the css, and grab the filename.
+	 * 
+	 * @return string
+	 */
+	public function css()
+	{
+		return Assets::generate('css');
+	}
+	
+	/**
+	 * Generate the js, and grab the filename.
+	 * 
+	 * @return string
+	 */
+	public function js()
+	{
+		return Assets::generate('js');
 	}
 
 }

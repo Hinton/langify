@@ -8,88 +8,53 @@
  * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-class Controller_Langify_Admin extends Controller_Template {
+class Controller_Langify_Admin extends Controller_Langify_Base {
 	
-	public $template = 'langify/admin/template';
+	public $view_prefix = 'View_Langify_Admin_';
+	
 	public $user;
 	
-	// yes i'm lazy.
-	private $version = '0.2';
-	
-	private $message = NULL;
+	public $message = NULL;
 	
 	function before()
 	{
-		
 		parent::before();
 		
-		// Load the accepted language list
-		$translations = Kohana::message('langify', 'translations');
-		
-		$this->template->set('version', $this->version);
-		$this->template->set('translations', $translations);
-		
-		
-		/*
-		 * Borrowed from userguide
-		 */
-		if (isset($_GET['lang']))
+		if ($this->request->action() !== 'login')
 		{
-			$lang = $_GET['lang'];
-
-			if (in_array($lang, array_keys($translations) ))
-			{
-				// Set the language cookie
-				Cookie::set('langify_language', $lang, Date::YEAR);
-			}
-
-			// Reload the page
-			$this->request->redirect($this->request->uri);
+			$this->check_access();
 		}
+		
+		Assets::add('css', 'css/langify.css');
+		Assets::add('js', 'js/langify.js');
+	}
 
-		// Set the translation language
-		I18n::$lang = Cookie::get('langify_language', Kohana::config('langify')->lang);
-		
-	}
-	
-	function after()
-	{
-		
-		$this->template->set('message', $this->message);
-		
-		parent::after();
-	}
-	
 	function check_access()
 	{
-		if (Auth::instance()->logged_in('translate')){
+		if (Auth::instance()->logged_in('translate'))
+		{
 			// The user got the correct role, let him access
-		} elseif (Auth::instance()->logged_in()) {
-		    die('No access');
-		} else {
-		    Request::instance()->redirect('translate/admin/login');
+		}
+		elseif (Auth::instance()->logged_in())
+		{
+			throw new HTTP_Exception_403('Access denied!');
+		}
+		else
+		{
+		    $this->request->redirect('translate/admin/login');
 		}
 	}
 	
-	function action_index()
-	{
-		
-		$this->check_access();
-		
-		$this->template->content = View::factory('langify/admin/index');
-		
-	}
+	function action_index() {}
 	
 	
 	function action_login()
 	{
 		// If user already signed-in
 		if( Auth::instance()->logged_in() ){
-			Request::instance()->redirect('translate/admin');		
+			$this->request->redirect('translate/admin');		
 		}
- 		
-		$content = $this->template->content = View::factory('langify/admin/login');	
- 
+
 		// If there is a post and $_POST is not empty
 		if ($_POST)
 		{
