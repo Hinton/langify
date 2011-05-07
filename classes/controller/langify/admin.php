@@ -126,45 +126,59 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 	
 	private function import($file = 'en', $import_keys = TRUE, $import_strings = TRUE)
 	{
-		
 		// Retrive the id of the wanted language
-		$language_id = Sprig::factory('translate_language', array('file' => $file))->load();
+		$language = ORM::factory('langify_language')
+			->where('file' ,'=', $file)
+			->find();
 		
-		// Load the translation file
-		$lang = I18n::load($file);
-		
-		// Import the key's into the key table
-		if ($import_keys) {
-			
-			foreach ($lang as $key => $value)
-			{
-				
-				$keys = Sprig::factory('translate_key', array(
-					'key' => $key,
-				));
-				
-				$keys->create();
-				
-			}
-			
+		if ( ! $language->loaded())
+		{
+			// Language was not found, we should redirect the user to create a language.
+			return false;
 		}
 		
-		// Import the lang strings into string table
-		if ($import_strings) {
+		// Load the translation file
+		$i18n = I18n::load($file);
+		
+		foreach ($i18n as $k => $v)
+		{
+			$key = ORM::factory('langify_key')
+				->where('key', '=', $k)
+				->find();
 			
-			foreach ($lang as $key => $value)
+			if ($import_keys === TRUE)
 			{
+				if ( ! $key->loaded())
+				{
+					$key = ORM::factory('langify_key');
+					$key->key = $k;
+					
+					$key->save();
+				}
+			}
+			
+			if ($import_strings)
+			{
+				if ( ! $key->loaded())
+				{
+					// This isnt supposed to happen, lets just ignore it.
+					continue;
+				}
 				
-				$key_id = Sprig::factory('translate_key', array( 'key' => $key ))->load();
+				$string = ORM::factory('langify_string')
+					->where('language_id', '=', $language->id)
+					->and_where('key_id', '=', $key->id)
+					->find();
 				
-				$strings = Sprig::factory('translate_string', array(
-					'language_id' => $language_id->id,
-					'key'      => $key_id->id,
-					'string'      => $value,
-				));
-	
-				$strings->create();
-				
+				if ( ! $string->loaded())
+				{
+					$string = ORM::factory('langify_string');
+					$string->language_id = $language->id;
+					$string->key_id = $key->id;
+					$string->string = $v;
+					
+					$string->save();
+				}
 			}
 		}
 	}
