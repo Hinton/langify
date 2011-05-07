@@ -6,7 +6,6 @@ body {
 	font:0.8125em/1.618 Arial, sans-serif;
 	background-color:#fff;
 	color:#111;
-	font-size-adjust:none;
 	font-style:normal;
 	font-variant:normal;
 	font-weight:normal;
@@ -21,7 +20,7 @@ p {
  
 h1,h2,h3,h4,h5,h6{
 	font-family: Georgia, serif;
-	margin-bottom:5px;
+	margin-bottom:10px;
 	font-weight:normal;
 }
  
@@ -122,7 +121,7 @@ td {
 	width: 50%;
 }
 .strings img {
-	vertical-align: center;
+	vertical-align: middle;
 }
 
 
@@ -135,20 +134,20 @@ tr div.form {
 	display: none;
 }
 
-input {
+.lol input {
 	width: 260px;
 	padding: 9px;
 	border: none;
 	background: none;
 }
 
-input:hover, input:focus {
+.lol input:hover, .lol input:focus {
 	background: #fff;
 	padding: 7px;
 	border: 2px solid #ccc;
 }
 
-input:hover {
+.lol input:hover {
 	border: 2px solid #ddd;
 }
 
@@ -159,6 +158,15 @@ tbody tr {
 tbody td {
 	display: table-cell;
 	vertical-align: middle;
+}
+
+.left {
+	float: left;
+	width: 100px;
+}
+.right {
+	float: right;
+	width: 700px;
 }
 
 input.change {

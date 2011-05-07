@@ -9,9 +9,7 @@
  * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-class Controller_Translate extends Controller_Langify_Base {
-
-	public $breadcrumb = array();
+class Controller_Langify_Translate extends Controller_Langify_Base {
 
 	function before()
 	{

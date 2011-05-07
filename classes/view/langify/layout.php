@@ -14,6 +14,10 @@ abstract class View_Langify_Layout extends Kostache_Layout {
 
 	public $title = 'Undefined';
 	public $sidebar = false; // Display sidebar?
+	
+	public $breadcrumb = array(
+		array('title' => 'Translate', 'url' => 'translate'),
+	);
 
 	/**
 	 * Grab all the translations avaible

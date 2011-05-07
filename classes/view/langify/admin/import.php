@@ -8,8 +8,10 @@
  * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-class View_Langify_Admin_Login extends View_Langify_Admin_Layout {
+class View_Langify_Admin_Import extends View_Langify_Admin_Layout {
 
-	public $title = 'Login';
+	public $title = 'Import';
+	
+	public $files;
 
 }

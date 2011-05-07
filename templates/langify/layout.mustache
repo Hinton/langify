@@ -9,6 +9,11 @@
 <body>
 <header>
 	<div class="wrapper">
+		<ul class="breadcrumb">
+			{{#breadcrumb}}
+				<li><a href="{{url}}">{{title}}</a></li>
+			{{/breadcrumb}}
+		</ul>
 		<div class="language_select">
 			<form action="" method="get">
 				<select name="lang">
@@ -23,18 +28,20 @@
 <div class="wrapper">
 	<h1>Langify - {{title}}</h1>
 	
-	{{#sidebar}}
-		<div class="left">
-	{{/sidebar}}
-	
-	{{>content}}
-	
-	{{#sidebar}}
-		</div>
-		<div class="right">
-			{{>sidebar}}
-		</div>
-	{{/sidebar}}
+	<div class="content">
+		{{#sidebar}}
+			<div class="left">
+				{{>sidebar}}
+			</div>
+			<div class="right">
+		{{/sidebar}}
+		
+		{{>content}}
+		
+		{{#sidebar}}
+			</div>
+		{{/sidebar}}
+	</div>
 	
 	<a href="http://oscarhinton.com" class="powerdby">Powered by Langify {{version}}</a>
 </div>

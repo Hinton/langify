@@ -1,0 +1,24 @@
+<p>Select a file you would want to import.</p>
+
+<form method="post">
+	<div>
+		<label for="file">File:</label>
+		<select name="file">
+			{{#files}}
+				<option name="{{key}}">{{key}}</option>
+			{{/files}}
+		</select>
+	</div>
+	
+	<div>
+		<label for="keys">Update keys: </label>
+		<input type="checkbox" checked="checked" name="keys" value="yes" />
+	</div>
+	
+	<div>
+		<label for="strings">Update strings: </label>
+		<input name="strings" type="checkbox" value="yes" checked="checked" />
+	</div>
+	
+	<input type="submit" value="Import" />
+</form>

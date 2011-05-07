@@ -13,6 +13,13 @@ class View_Langify_View extends View_Langify_Layout {
 	public $title = 'View';
 	public $language = NULL;
 	
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->breadcrumb[] = array('title' => 'View', 'url' => '');
+	}
+	
 	public function strings()
 	{
 		$strings = array();

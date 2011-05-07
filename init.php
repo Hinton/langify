@@ -1,12 +1,12 @@
-<?php
+<?php defined('SYSPATH') or die('No direct script access.');
 /**
- * Translate init.php
+ * init.php
  *
- * @package    Translate
- * @author     Copy112
+ * @package    Langify
+ * @author     Oscar Hinton
+ * @copyright  (c) 2011 Oscar Hinton
  * @license    MIT
  */
-
 Route::set('translate/admin', 'translate/admin(/<action>(/<language>(/<id>)))')
 	->defaults(array(
 		'directory'  => 'langify',
@@ -16,6 +16,7 @@ Route::set('translate/admin', 'translate/admin(/<action>(/<language>(/<id>)))')
 
 Route::set('translate', 'translate(/<action>(/<language>(/<id>)))')
 	->defaults(array(
+		'directory'  => 'langify',
 		'controller' => 'translate',
 		'action'     => 'index',
 	));

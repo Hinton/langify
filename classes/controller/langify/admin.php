@@ -22,7 +22,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 		
 		if ($this->request->action() !== 'login')
 		{
-			$this->check_access();
+			//$this->check_access();
 		}
 		
 		Assets::add('css', 'css/langify.css');
@@ -70,33 +70,32 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
                 // Get errors for display in view
 				$content->errors = $_POST->errors('signin');
 			}
- 
+
 		}
 	}
 	
 	
 	function action_import()
 	{
+		$files = array();
+		$view_files = array();
+		foreach (Kohana::list_files('i18n') as $k => $v)
+		{
+			$files[] = $k;
+			$view_files[] = array('key' => $k);
+		}
+		$this->view->set('files', $view_files);
 		
-		$this->check_access();
+		$post = Validation::factory($_POST)
+			->rule('file', 'not_empty')
+			->rule('file', 'in_array', array(':value', $files));
 		
-		$this->template->content = View::factory('langify/admin/import');
-		
-		if ($_POST) {
+		if ($post->check())
+		{
+			$file = $post['file'];
+			$file = str_replace(array('i18n\\', 'i18n/', '.php'), '', $file);
 			
-			$file = security::xss_clean($_POST['file']);
-			$keys = FALSE;
-			$strings = FALSE;
-			if ($_POST['keys']) { 
-				$keys = TRUE;
-			}
-			if ($_POST['strings']) { 
-				$strings = TRUE;
-			}
-			
-			$this->import( $file, $keys, $strings );
-			
-			$this->message = 'Succesfully imported the file!';
+			$this->import($file, isset($post['keys']), isset($post['strings']));
 		}
 	}
 	
