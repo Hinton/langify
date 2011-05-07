@@ -77,6 +77,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 	
 	function action_import()
 	{
+		// Grab a list of files that can be imported.
 		$files = array();
 		$view_files = array();
 		foreach (Kohana::list_files('i18n') as $k => $v)
@@ -92,6 +93,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 		
 		if ($post->check())
 		{
+			// Remove unnesesary junk from the file name.
 			$file = $post['file'];
 			$file = str_replace(array('i18n\\', 'i18n/', '.php'), '', $file);
 			
