@@ -103,12 +103,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 	
 	function action_export()
 	{
-		
-		$this->check_access();
-		
-		$this->template->content = View::factory('langify/admin/export')
-			->bind('languages', $languages);
-			
+		/*
 		$lang = Sprig::factory('translate_language')->load(NULL, NULL);
 		
 		$languages = array();
@@ -120,7 +115,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 			$file = security::xss_clean( $_POST['file'] );
 			$this->export($file);
 		}
-		
+		*/
 	}
 
 	
