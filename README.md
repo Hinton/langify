@@ -9,7 +9,7 @@ It allows you to import kohana i18n files into a db, have your visitors translat
 * AUTH (Can easily be excluded and changed to a custom auth system if needed)
 * ORM
 * KOstache (http://github.com/zombor/KOstache)
-* Assets (https://github.com/hinton/assets)
+* Assets (http://github.com/hinton/assets)
 
 * Add the module to your bootstrap.php file
 ##Install
