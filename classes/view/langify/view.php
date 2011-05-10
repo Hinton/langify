@@ -22,22 +22,11 @@ class View_Langify_View extends View_Langify_Layout {
 	
 	public function strings()
 	{
-		$strings = array();
-
 		// Load the langify keys with strings joined.
-		$orm = ORM::factory('langify_key')
+		$strings = ORM::factory('langify_key')
 			->find_with_strings($this->language);
-
-		foreach ($orm as $string)
-		{
-			$strings[] = array(
-				'id'     => $string->string_id,
-				'key_id' => $string->key_id,
-				'key'    => $string->key,
-				'string' => $string->string,
-			);
-		}
-		return $strings;
+		
+		return $strings->as_array();
 	}
 
 }

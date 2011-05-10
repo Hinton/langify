@@ -103,19 +103,23 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 	
 	function action_export()
 	{
-		/*
-		$lang = Sprig::factory('translate_language')->load(NULL, NULL);
+		$post = Validation::factory($_POST)
+			->rule('language', 'not_empty')
+			->rule('language', 'digit');
 		
-		$languages = array();
-		foreach ($lang as $language) {
-			$languages[$language->file] = $language->name;
+		if ($post->check())
+		{
+			$language = ORM::factory('langify_language')
+				->where('id', '=', $post['language'])
+				->find();
+			
+			if ( ! $language->loaded())
+			{
+				die('Unknown language');
+			}
+			
+			$this->export($language->id, $language->name);
 		}
-		
-		if ($_POST) {
-			$file = security::xss_clean( $_POST['file'] );
-			$this->export($file);
-		}
-		*/
 	}
 
 	
@@ -178,40 +182,35 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 		}
 	}
 	
-	private function export($lang)
+	private function export($language, $filename)
 	{
 		$this->auto_render = false;
 		
-		$language = Sprig::factory('translate_language', array('file' => $lang))->load();
-		$strings  = Sprig::factory('translate_string', array('language_id' => $language->id))->load(NULL, NULL);
-		$keys     = Sprig::factory('translate_key')->load(NULL, NULL);
+		$strings = array();
+
+		// Load the langify keys with strings joined.
+		$strings = ORM::factory('langify_key')
+			->find_with_strings($language);
 		
-		$string_return = array();
-		
-		// Assign all language strings to an array with the key_id as key.
-		foreach ($strings as $string)
-		{
-			$string_return[$string->key->key] = $string->string;
-		}
-		
-		
-		header('Content-disposition: attachment; filename='.$lang.'.php');
+		header('Content-disposition: attachment; filename='.$filename.'.php');
 		header('Content-type: text/html');
 		
 		$output  = "<?php defined('SYSPATH') or die('No direct script access.');\n";
 		$output .= "\n";
 		$output .= "return array (\n";
 		
-		foreach ( $string_return as $key => $value )
+		foreach ($strings as $string)
 		{
-			$output .= "\t'".$key."' => '".$value."',\n";
+			// Replace ' with \'
+			$k = str_replace("'", "\'", $string->key);
+			$s = str_replace("'", "\'", $string->string);
+			
+			$output .= "\t'".$k."' => '".$s."',\n";
 		}
-		
 		
 		$output .= ");";
 		
-		echo $output;
-		
+		$this->response->body($output);
 	}
 	
 }
