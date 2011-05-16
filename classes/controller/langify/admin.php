@@ -22,7 +22,7 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 		
 		if ($this->request->action() !== 'login')
 		{
-			//$this->check_access();
+			$this->check_access();
 		}
 		
 		Assets::add('css', 'css/langify.css');
@@ -51,26 +51,18 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 	function action_login()
 	{
 		// If user already signed-in
-		if( Auth::instance()->logged_in() ){
+		if (Auth::instance()->logged_in() ){
 			$this->request->redirect('translate/admin');		
 		}
 
 		// If there is a post and $_POST is not empty
-		if ($_POST)
+		if ($_POST && Auth::instance()->login($_POST['username'], $_POST['password']))
 		{
-			$user = ORM::factory('user');
-
-			$status = $user->login($_POST);
- 
-			// If the post data validates using the rules setup in the user model
-			if ($status) {		
-				// redirect to the user account
-				Request::instance()->redirect('translate/admin');
-			} else {
-                // Get errors for display in view
-				$content->errors = $_POST->errors('signin');
-			}
-
+			$this->request->redirect('translate/admin');
+		}
+		elseif ($_POST)
+		{
+			die('incorrect login');
 		}
 	}
 	
