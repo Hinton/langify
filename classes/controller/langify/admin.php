@@ -72,7 +72,8 @@ class Controller_Langify_Admin extends Controller_Langify_Base {
 		// Grab a list of files that can be imported.
 		$files = array();
 		$view_files = array();
-		foreach (Kohana::list_files('i18n') as $k => $v)
+		$config = Kohana::config('langify');
+		foreach (Kohana::list_files('i18n', $config['paths']) as $k => $v)
 		{
 			$files[] = $k;
 			$view_files[] = array('key' => $k);

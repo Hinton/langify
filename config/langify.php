@@ -8,4 +8,6 @@ return array(
 	// Default language
 	'lang'		=> 'en-us',
 	
+	// Paths to restrict to the search for import
+	'paths' => NULL	
 );
